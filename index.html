@@ -12,23 +12,23 @@
         <h1>Todo App WU2!</h1>
         <input type="text" placeholder="Sök..">
         <br>
-        <input data-cy="show" type="checkbox">Visa alla</input>
+        <input data-cy="show" type="checkbox" v-model="doShowComplete">Visa alla</input>
         <hr>
         <div class="flex">
-            <input data-cy="todo" class="input" type="text" placeholder="skriv något här...">
-            <button data-cy="add">+</button>        
+            <input data-cy="todo" class="input" type="text" placeholder="skriv något här..." v-model="text">
+            <button data-cy="add" @click="onAdd">+</button>        
         </div>
         <ul>
             <!-- lägg till v-for och skicka props till item komponenten -->
-            <item></item>
+            <item v-for="todo in todos" :todo="todo"></item>
         </ul>        
     </div>
 </body>
 <template id="item-template">
-    <div class="item">
-        <li>Write more tests</li>
-        <button data-cy="del">✗</button>
-        <button data-cy="mark">✓</button>
+    <div v-show="!done || $parent.doShowComplete" class="item">
+        <li :class="{ strikethrough: done }">{{todo.text}}</li>
+        <button data-cy="del" @click="delTodo">✗</button>
+        <button data-cy="mark" @click="toggleTodo">✓</button>
     </div>
 </template>
 <script src="index.js"></script>
