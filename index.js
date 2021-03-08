@@ -13,6 +13,11 @@ const App = {
             doShowComplete: true,
             search: ""
         };
+    },
+    methods: {
+        onAdd() {
+            this.todos.push({id: ++this.counter, text: this.text})
+        }
     }
 };
 
@@ -20,7 +25,20 @@ const app = createApp(App);
 
 app.component('item', {
     name: "Item",
-    /* lägg till props, data och metoder för item komponenten */
+    props: ['todo'],
+    data() {
+        return {
+            done: false
+        }
+    },
+    methods: {
+        delTodo() {
+            this.$parent.todos = this.$parent.todos.filter(f => f.id != this.todo.id);
+        },
+        toggleTodo() {
+            this.done = !this.done;
+        }
+    },
     template: `#item-template`
 });
 
